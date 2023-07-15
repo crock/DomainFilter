@@ -1,0 +1,18 @@
+# External dependencies
+node_modules
+vendor
+
+# Dependency Lock files
+*.lock
+
+# Useless macOS file
+.DS_Store
+
+# Logs
+*.log
+
+# editor configurations
+.idea/
+.vscode/
+.atom/
+.nova/
