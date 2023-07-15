@@ -1,9 +1,9 @@
 {
     "name": "domainfilter",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A fully-typed class for filtering a list of domain names in various ways",
     "author": "Alex Crocker <hello@crock.dev> (https://croc.io)",
-    "homepage": "https://github.com/crock/DomainFilter",
+    "homepage": "https://crock.github.io/DomainFilter/",
     "keywords": [
         "DomainFilter",
         "domains",
