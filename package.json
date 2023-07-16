@@ -1,6 +1,6 @@
 {
     "name": "domainfilter",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A fully-typed class for filtering a list of domain names in various ways",
     "author": "Alex Crocker <hello@crock.dev> (https://croc.io)",
     "homepage": "https://crock.github.io/DomainFilter/",
@@ -41,5 +41,10 @@
         "build": "rollup -c",
         "test": "jest",
         "docs": "typedoc src/DomainFilter.ts --out docs"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/crock/DomainFilter.git"
     }
 }

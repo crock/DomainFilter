@@ -49,4 +49,17 @@ To run the tests, simply run `npm run test` in the root directory.
 
 ## Contributing
 
-Let me know of any issues or feature requests by opening an issue on GitHub.
+Let me know of any issues or feature requests by opening an issue on [GitHub](https://github.com/crock/DomainFilter.git).
+
+### Roadmap
+
+| Completed  | Feature  |
+|---|---|
+| ✅  |  `IFilterConfig.domainLength` |
+| ✅  |  `IFilterConfig.domainHacks` |
+| ✅  | `IFilterConfig.hyphens`  |
+| ✅  |  `IFilterConfig.numbers` |
+| ✅  |  `IFilterConfig.keywords` |
+| ✅  |  `IFilterConfig.extensions` |
+| ❌  | `IFilterConfig.idn` - Allow filtering of IDN domains  |
+| ❌  | `IFilterConfig.adult` - Allow filtering of adult-oriented domains  |
