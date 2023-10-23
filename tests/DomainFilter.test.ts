@@ -23,6 +23,10 @@ const testDomains = [
 	"tutsplus.com",
 	"wallflower.net",
 	"x-clip.com",
+	"bitch.com",
+	"bit.ch",
+	"molasses.com",
+	"ass420.com",
 ]
 
 describe("Filter", () => {

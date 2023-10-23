@@ -19,7 +19,7 @@ I've automatically generated basic documentation using [TypeDoc](https://typedoc
 
 https://crock.github.io/DomainFilter/
 
-## Usage
+## Node Usage
 
 ```typescript
 import DomainFilter, { KeywordPosition } from 'domainfilter';
@@ -40,6 +40,49 @@ const results = df.filter([
 ]);
 
 print(results); // Logs ["sysadmin.com", "example.com"]
+```
+
+## Browser Usage
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropfilter - Browser Usage Example</title>
+</head>
+<body>
+    <div id="results"></div>
+
+    <script src="/dist/DomainFilter.umd.js"></script>
+    <script>
+        const DomainFilter = window["DomainFilter"].default
+        const resultsEl = document.getElementById("results");
+
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const df = new DomainFilter({
+                keywords: [
+                    {
+                        value: 'admin',
+                        selected: true,
+                        position: "start"
+                    }
+                ]
+            });
+
+            const results = df.filter([
+                'admintuts.com',
+                'google.com',
+                'sysadmin.com'
+            ])
+
+            resultsEl.innerText = results.join("\n");
+        })
+    </script>
+</body>
+</html>
 ```
 
 ## Tests

@@ -1,5 +1,4 @@
 
-
 export interface IExtension {
 	id?: string
 	value: string
@@ -74,40 +73,13 @@ class DomainFilter {
 	}
 
 	contains_hyphens(domain: string) {
-		if (this.config.hyphens && domain.includes("-")) {
-            
-            return true
-        } else if (this.config.hyphens && !domain.includes("-")) {
-            
-            return true
-        } else if (!this.config.hyphens && domain.includes("-")) {
-            
-            return false
-        } else if (!this.config.hyphens && !domain.includes("-")) {
-            
-            return true
-        }
-        
-        return true
+		const hasHyphen = domain.includes("-");
+		return this.config.hyphens ? true : !hasHyphen;
 	}
-
+	
 	contains_numbers(domain: string) {
-		let simpleDigits = /[0-9]+/
-        if (this.config.numbers && simpleDigits.test(domain)) {
-            
-            return true
-        } else if (this.config.numbers && !simpleDigits.test(domain)) {
-            
-            return true
-        } else if (!this.config.numbers && simpleDigits.test(domain)) {
-            
-            return false
-        } else if (!this.config.numbers && !simpleDigits.test(domain)) {
-            
-            return true
-        }
-        
-        return true
+		const hasNumber = /[0-9]+/.test(domain);
+		return this.config.numbers ? true : !hasNumber;
 	}
 
 	contains_keywords(domain: string) {

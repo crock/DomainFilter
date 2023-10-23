@@ -1,6 +1,6 @@
 {
     "name": "domainfilter",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A fully-typed class for filtering a list of domain names in various ways",
     "author": "Alex Crocker <hello@crock.dev> (https://croc.io)",
     "homepage": "https://crock.github.io/DomainFilter/",
@@ -34,7 +34,8 @@
     "browser": "dist/DomainFilter.umd.js",
     "files": [
         "dist",
-        "src/DomainFilter.ts"
+        "src/DomainFilter.ts",
+        "data"
     ],
     "scripts": {
         "dev": "rollup -c -w",
