@@ -13,6 +13,7 @@ export default [
       file: pkg.browser,
       format: "umd",
       exports: "named",
+      sourcemap: true,
     },
     plugins: [
       resolve(),
@@ -30,8 +31,8 @@ export default [
   {
     input: "src/DomainFilter.ts",
     output: [
-      { file: pkg.main, format: "cjs", exports: "named" },
-      { file: pkg.module, format: "es", exports: "named" },
+      { file: pkg.main, format: "cjs", exports: "named", sourcemap: true },
+      { file: pkg.module, format: "es", exports: "named", sourcemap: true },
     ],
     plugins: [typescript({ tsconfig: "./tsconfig.json" })],
   },

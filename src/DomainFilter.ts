@@ -40,11 +40,19 @@ export const defaultConfig: IFilterConfig = {
 	adult: false,
 }
 
+export interface DFOptions {
+	adultTerms?: string[]
+}
+
 class DomainFilter {
 	config: IFilterConfig = { ...defaultConfig }
+	options: DFOptions = {
+		adultTerms: []
+	}
 
-	constructor(partialConfig?: Partial<IFilterConfig>) {
+	constructor(partialConfig?: Partial<IFilterConfig>, options?: Partial<DFOptions>) {
 		if (partialConfig) this.updateConfig(partialConfig)
+		if (options) this.options = { ...this.options, ...options }
 	}
 
 	updateConfig(partialConfig: Partial<IFilterConfig>) {
@@ -52,17 +60,27 @@ class DomainFilter {
 	}
 
 	resetConfig() {
-		this.config = { ...defaultConfig }
+		Object.assign(this.config, defaultConfig)
 	}
 
 	is_select_tld(domain: string) {
-		if (!this.config.extensions.length || this.config.domainHacks)
-			return true
-		return (
-			this.config.extensions.filter((ext) =>
-				domain.toLowerCase().includes(ext.value.toLowerCase())
-			).length > 0
-		)
+		if (!this.config.extensions.length || this.config.domainHacks) return true
+
+		const selectedTlds = this.config.extensions
+			.filter(ext => ext.selected)
+			.map(ext => ext.value)
+
+		if (selectedTlds.length === 0) return true
+
+		const domainParts = domain.split(".")
+
+		if (domainParts.length > 2) {
+			const tld = `.${domainParts[1]}.${domainParts[2]}` // matches tlds in the format .co.uk 
+			return selectedTlds.includes(tld)
+		} else {
+			const tld = `.${domainParts[1]}`
+			return selectedTlds.includes(tld)
+		}
 	}
 
 	is_proper_length(domain: string) {
@@ -114,13 +132,30 @@ class DomainFilter {
 		return results.length > 0
 	}
 
+	contains_adult_terms(domain: string) {
+		if (this.config.adult) return true
+
+		const terms = this.options.adultTerms || []
+
+		if (!terms.length) return true
+
+		const sld = domain.split(".")[0]
+		const tld = domain
+				.replace(sld, "")
+				.replace(/\.+/, "")
+		const pattern = new RegExp(`(${terms.join("|")})`, "gi")
+
+		return !pattern.test(`${sld}${tld}`)
+	}
+
 	filter(domains: string[]) {
 		const filteredDomains = domains
+			.filter(this.is_select_tld, this)
 			.filter(this.is_proper_length, this)
 			.filter(this.contains_hyphens, this)
 			.filter(this.contains_numbers, this)
-			.filter(this.is_select_tld, this)
 			.filter(this.contains_keywords, this)
+			.filter(this.contains_adult_terms, this)
 
 		return filteredDomains
 	}

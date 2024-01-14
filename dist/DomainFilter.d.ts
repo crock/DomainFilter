@@ -25,9 +25,13 @@ export interface IFilterConfig {
     adult: boolean;
 }
 export declare const defaultConfig: IFilterConfig;
+export interface DFOptions {
+    adultTerms?: string[];
+}
 declare class DomainFilter {
     config: IFilterConfig;
-    constructor(partialConfig?: Partial<IFilterConfig>);
+    options: DFOptions;
+    constructor(partialConfig?: Partial<IFilterConfig>, options?: Partial<DFOptions>);
     updateConfig(partialConfig: Partial<IFilterConfig>): void;
     resetConfig(): void;
     is_select_tld(domain: string): boolean;
@@ -35,6 +39,7 @@ declare class DomainFilter {
     contains_hyphens(domain: string): boolean;
     contains_numbers(domain: string): boolean;
     contains_keywords(domain: string): boolean;
+    contains_adult_terms(domain: string): boolean;
     filter(domains: string[]): string[];
 }
 export default DomainFilter;

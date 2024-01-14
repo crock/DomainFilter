@@ -19,6 +19,14 @@ I've automatically generated basic documentation using [TypeDoc](https://typedoc
 
 https://crock.github.io/DomainFilter/
 
+I have included a Node script in the bundle that will download a JSON list of adult terms for the `IFilterConfig.adult` option or you can pass in your own list of terms like so...
+
+```ts
+const df = new DomainFilter({ adult: false }, {
+    adultTerms: ["badword", "anotherbadword"]
+})
+```
+
 ## Node Usage
 
 ```typescript
@@ -104,5 +112,6 @@ Let me know of any issues or feature requests by opening an issue on [GitHub](ht
 | ✅  |  `IFilterConfig.numbers` |
 | ✅  |  `IFilterConfig.keywords` |
 | ✅  |  `IFilterConfig.extensions` |
-| ❌  | `IFilterConfig.idn` - Allow filtering of IDN domains  |
-| ❌  | `IFilterConfig.adult` - Allow filtering of adult-oriented domains  |
+| ✅  | `IFilterConfig.adult` - Added in 1.0.4 |
+| ❌  | `IFilterConfig.idn` |
+

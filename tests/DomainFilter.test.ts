@@ -23,14 +23,18 @@ const testDomains = [
 	"tutsplus.com",
 	"wallflower.net",
 	"x-clip.com",
+	"cumdump.com",
 	"bitch.com",
 	"bit.ch",
 	"molasses.com",
 	"ass420.com",
+	"UKTea.co.uk"
 ]
 
 describe("Filter", () => {
-	const df = new DomainFilter()
+	const df = new DomainFilter({}, {
+		adultTerms: require("../data/adult_terms.json")
+	})
 
 	beforeEach(() => {
 		df.resetConfig()
@@ -45,6 +49,19 @@ describe("Filter", () => {
 	})
 
 	describe(".filter", () => {
+		describe("with second-level domain extensions included in config", () => {
+			it("it returns domains with second-level extensions", () => {
+				df.updateConfig({ adult: true, extensions: [
+					{ value: ".co.uk", selected: true }
+				] })
+				
+				const results = df.filter(testDomains)
+
+				expect(results.length).toEqual(1)
+				expect(results).toContain("UKTea.co.uk")
+			})
+		})
+
 		describe("with min and max length set", () => {
 			it("excludes domains with length outside the selected range", () => {
 				df.updateConfig({ domainLength: [7, 15] })
@@ -147,6 +164,7 @@ describe("Filter", () => {
 			describe("with hacks enabled", () => {
 				it("should return domains with the keywords in the whole domain including the extension", () => {
 					df.updateConfig({
+						adult: true,
 						domainHacks: true,
 						keywords: [
 							{
@@ -176,6 +194,98 @@ describe("Filter", () => {
 					expect(results).toContain("admintuts.com")
 					expect(results).toContain("pot.sh")
 					expect(results).not.toContain("fibrescopetele.com")
+				})
+			})
+		})
+
+		describe("with adult filter enabled", () => {
+			describe("with hacks disabled", () => {
+				it("should include domains with adult terms", () => {
+					df.updateConfig({ domainHacks: false, adult: true, keywords: [
+						{
+							value: "bit",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						},
+						{
+							value: "cum",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						}
+					] })
+					const results = df.filter(testDomains)
+					
+					expect(results).toContain("bitch.com")
+					expect(results).toContain("cumdump.com")
+					expect(results).toContain("bit.ch")
+				})
+			})
+
+			describe("with hacks enabled", () => {
+				it("should include domains with adult terms", () => {
+					df.updateConfig({ domainHacks: true, adult: true, keywords: [
+						{
+							value: "bit",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						},
+						{
+							value: "cum",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						}
+					] })
+					const results = df.filter(testDomains)
+					
+					expect(results).toContain("bitch.com")
+					expect(results).toContain("cumdump.com")
+					expect(results).toContain("bit.ch")
+				})
+			})
+		})
+
+		describe("with adult filter disabled", () => {
+			describe("with hacks disabled", () => {
+				it("should exclude domains with adult terms", () => {
+					df.updateConfig({ domainHacks: false, adult: false, keywords: [
+						{
+							value: "bit",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						},
+						{
+							value: "cum",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						}
+					] })
+					const results = df.filter(testDomains)
+
+					expect(results).not.toContain("bit.ch")
+					expect(results).not.toContain("cumdump.com")
+					expect(results).not.toContain("bitch.com")
+				})
+			})
+
+			describe("with hacks enabled", () => {
+				it("should exclude domains with adult terms", () => {
+					df.updateConfig({ domainHacks: false, adult: false, keywords: [
+						{
+							value: "bit",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						},
+						{
+							value: "cum",
+							selected: true,
+							position: KeywordPosition.anywhere,
+						}
+					] })
+					const results = df.filter(testDomains)
+
+					expect(results).not.toContain("bit.ch")
+					expect(results).not.toContain("cumdump.com")
+					expect(results).not.toContain("bitch.com")
 				})
 			})
 		})
