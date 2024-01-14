@@ -27,6 +27,12 @@ const df = new DomainFilter({ adult: false }, {
 })
 ```
 
+To run the Node script, you can do the following in your project directory...
+
+```bash
+node node_modules/domainfilter/scripts/downloadAdultTerms.js
+```
+
 ## Node Usage
 
 ```typescript
