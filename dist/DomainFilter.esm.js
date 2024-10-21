@@ -1,3 +1,4 @@
+const { toASCII } = require('punycode/');
 const defaultConfig = {
     domainLength: [1, 63],
     domainHacks: false,
@@ -50,6 +51,10 @@ class DomainFilter {
         return lessThanCheck && greaterThanCheck;
     }
     contains_hyphens(domain) {
+        if (domain.startsWith('xn--')) {
+            // Always allow hyphens for IDN domains
+            return true;
+        }
         const hasHyphen = domain.includes("-");
         return this.config.hyphens ? true : !hasHyphen;
     }
@@ -95,15 +100,33 @@ class DomainFilter {
         const pattern = new RegExp(`(${terms.join("|")})`, "gi");
         return !pattern.test(`${sld}${tld}`);
     }
+    contains_idn(domain) {
+        if (this.config.idn)
+            return true;
+        const punycodeString = toASCII(domain);
+        return domain === punycodeString;
+    }
     filter(domains) {
-        const filteredDomains = domains
-            .filter(this.is_select_tld, this)
-            .filter(this.is_proper_length, this)
-            .filter(this.contains_hyphens, this)
-            .filter(this.contains_numbers, this)
-            .filter(this.contains_keywords, this)
-            .filter(this.contains_adult_terms, this);
-        return filteredDomains;
+        return domains.filter(domain => {
+            const isIDN = domain.startsWith('xn--');
+            // If IDN is disabled and the domain is an IDN, filter it out
+            if (!this.config.idn && isIDN) {
+                return false;
+            }
+            // For IDN domains, only apply IDN-specific checks
+            if (isIDN) {
+                return this.is_select_tld(domain) &&
+                    this.is_proper_length(domain) &&
+                    this.contains_adult_terms(domain);
+            }
+            // For non-IDN domains, apply all checks
+            return this.is_select_tld(domain) &&
+                this.is_proper_length(domain) &&
+                this.contains_hyphens(domain) &&
+                this.contains_numbers(domain) &&
+                this.contains_keywords(domain) &&
+                this.contains_adult_terms(domain);
+        });
     }
 }
 

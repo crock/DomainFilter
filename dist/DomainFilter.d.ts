@@ -40,6 +40,7 @@ declare class DomainFilter {
     contains_numbers(domain: string): boolean;
     contains_keywords(domain: string): boolean;
     contains_adult_terms(domain: string): boolean;
+    contains_idn(domain: string): boolean;
     filter(domains: string[]): string[];
 }
 export default DomainFilter;

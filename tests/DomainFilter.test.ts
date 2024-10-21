@@ -28,7 +28,9 @@ const testDomains = [
 	"bit.ch",
 	"molasses.com",
 	"ass420.com",
-	"UKTea.co.uk"
+	"UKTea.co.uk",
+	"xn--80ak6aa92e.com", // пример.com in Punycode
+	"xn--tiq49xqyj.net",  // 테스트.net in Punycode
 ]
 
 describe("Filter", () => {
@@ -290,5 +292,27 @@ describe("Filter", () => {
 			})
 		})
 
-	})
-})
+		describe("with IDN filter", () => {
+			it("should exclude IDN domains when IDN is disabled", () => {
+				df.updateConfig({ idn: false });
+				
+				const results = df.filter(testDomains);
+
+				expect(results).not.toContain("xn--80ak6aa92e.com");
+				expect(results).not.toContain("xn--tiq49xqyj.net");
+			});
+
+			it("should include IDN domains when IDN is enabled", () => {
+				df.updateConfig({ idn: true });
+				
+				const results = df.filter(testDomains);
+
+				console.log("Filtered results:", results);
+				console.log("Config:", df.config);
+
+				expect(results).toContain("xn--80ak6aa92e.com");
+				expect(results).toContain("xn--tiq49xqyj.net");
+			});
+		});
+	});
+});

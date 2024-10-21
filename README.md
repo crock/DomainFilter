@@ -119,5 +119,5 @@ Let me know of any issues or feature requests by opening an issue on [GitHub](ht
 | ✅  |  `IFilterConfig.keywords` |
 | ✅  |  `IFilterConfig.extensions` |
 | ✅  | `IFilterConfig.adult` - Added in 1.0.4 |
-| ❌  | `IFilterConfig.idn` |
+| ✅   | `IFilterConfig.idn` - Added in 1.0.5 |
 

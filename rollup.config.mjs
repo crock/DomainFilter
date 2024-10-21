@@ -20,6 +20,7 @@ export default [
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
     ],
+    external: ["punycode"],
   },
 
   // CommonJS (for Node) and ES module (for bundlers) build.
@@ -35,5 +36,6 @@ export default [
       { file: pkg.module, format: "es", exports: "named", sourcemap: true },
     ],
     plugins: [typescript({ tsconfig: "./tsconfig.json" })],
+    external: ["punycode"],
   },
 ];

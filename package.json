@@ -1,6 +1,6 @@
 {
     "name": "domainfilter",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "A fully-typed class for filtering a list of domain names in various ways",
     "author": "Alex Crocker <hello@crock.dev> (https://croc.io)",
     "homepage": "https://crock.github.io/DomainFilter/",
@@ -40,7 +40,7 @@
     "scripts": {
         "dev": "rollup -c -w",
         "build": "rollup -c",
-        "test": "jest",
+        "test": "jest --config jest.config.cjs",
         "docs": "typedoc src/DomainFilter.ts --out docs"
     },
     "license": "MIT",
@@ -51,5 +51,6 @@
     "dependencies": {
         "axios": "^1.6.5",
         "punycode": "^2.3.1"
-    }
+    },
+    "type": "module"
 }
